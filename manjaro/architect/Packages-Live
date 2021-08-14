@@ -1,7 +1,8 @@
 git
 KERNEL-broadcom-wl
 KERNEL-r8168
-KERNEL-virtualbox-guest-modules
+#KERNEL-virtualbox-guest-modules
+kexec-tools
 maia-console
 manjaro-architect-launcher
 manjaro-hotfixes

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+nvme="$(find /dev -maxdepth 1 | grep -E "^/dev/nvme[0-9]+n[0-9]+$" | sort -V | head -n 1)"
+sudo mount $nvme /mnt
+
+kver="$(find /mnt/boot -maxdepth 1 | grep vmlinuz | sort -rV | head -n 1 | sed -E 's,.*vmlinuz-(.+)-x86_64,\1,g')"
+
+sudo kexec -l /mnt/boot/vmlinuz-$kver-x86_64 --initrd=/mnt/boot/initramfs-$kver-x86_64.img --command-line="$(cat /proc/cmdline)"
+sudo kexec -e
+
